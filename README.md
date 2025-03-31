@@ -3,6 +3,41 @@
 ## 專案概述
 本專案旨在開發一個旅遊多用戶分帳網頁應用，幫助旅遊團體中的用戶輕鬆管理、記錄和分擔旅遊費用。核心目標是提供最佳化的使用者體驗（UX）、美觀的介面設計（UI），並確保應用程式能完美響應手機與電腦端。
 
+## 專案結構
+
+```mermaid
+graph TD
+    A(travel) --> B(README.md);
+    A --> C(frontend);
+    A --> D(backend);
+
+    subgraph Frontend (Next.js)
+    C --> C1(app);
+    C --> C2(components);
+    C --> C3(public);
+    C --> C4(package.json);
+    C --> C5(...);
+    end
+
+    subgraph Backend (Node.js/Express)
+    D --> D1(src);
+    D --> D2(package.json);
+    D --> D3(.gitignore);
+    D --> D4(tsconfig.json);
+    D --> D5(...);
+
+    D1 --> D1a(controllers);
+    D1 --> D1b(models);
+    D1 --> D1c(routes);
+    D1 --> D1d(config);
+    D1 --> D1e(server.ts);
+    D1 --> D1f(...);
+    end
+
+    style C fill:#D6EAF8,stroke:#3498DB,stroke-width:2px;
+    style D fill:#D5F5E3,stroke:#2ECC71,stroke-width:2px;
+```
+
 ## 需求
 
 ### 功能需求
@@ -53,22 +88,40 @@
 - **部署**：Vercel 或 AWS - 簡單部署與擴展。
 - **版本控制**：Git + GitHub - 團隊協作與代碼管理。
 
-## 里程碑
+## 里程碑與進度
 
-### 里程碑 1：專案初始化與設計
+*(狀態：進行中)*
+
+### 里程碑 1：專案初始化與設計 (已部分完成)
 - **目標**：確定專案架構與設計基礎。
 - **任務**：
-  - 建立專案 repository（GitHub）。
-  - 完成線框圖（Wireframes）與 UI 設計稿（Figma 或類似工具）。
-  - 設定前端與後端基本框架。
+  - [x] 建立專案 repository（GitHub）。
+  - [ ] 完成線框圖（Wireframes）與 UI 設計稿（設計稿連結: [請在此處貼上連結或說明文件位置]）。
+  - [x] **設定前端與後端基本框架**：
+    - [x] 建立前後端分離資料夾結構 (`frontend/`, `backend/`)。
+    - [x] 初始化後端 Node.js (Express + TypeScript) 專案。
+    - [x] 安裝後端依賴。
+    - [x] 配置 `tsconfig.json`。
+    - [x] 建立基本伺服器入口點 (`src/index.ts`) 與 MongoDB 連接。
+    - [x] 更新 README 加入專案結構圖。
 - **預計完成時間**：第 1-2 週。
 
-### 里程碑 2：核心功能開發
-- **目標**：實現用戶管理與旅遊團功能。
-- **任務**：
-  - 開發用戶註冊、登入與團管理功能。
-  - 設計資料庫結構（用戶、旅遊團）。
-  - 實現響應式前端介面。
+### 里程碑 2：核心功能開發 - 用戶管理 (進行中)
+- **目標**：實現用戶註冊與登入功能。
+- **後續步驟規劃**：
+  1.  **建立用戶資料模型 (`backend/src/models/User.ts`)**:
+      *   定義 `UserSchema` (包含 `name`, `email`, `password` 等)。
+  2.  **建立認證路由 (`backend/src/routes/auth.ts`)**:
+      *   定義 `POST /api/auth/register` 和 `POST /api/auth/login` 路由。
+  3.  **建立認證控制器 (`backend/src/controllers/authController.ts`)**:
+      *   實現註冊邏輯 (資料驗證、密碼雜湊、存入 DB)。
+      *   實現登入邏輯 (用戶查找、密碼比對、生成 JWT)。
+  4.  **整合路由與環境變數**:
+      *   在 `src/index.ts` 中掛載認證路由。
+      *   設定 `JWT_SECRET` 等環境變數。
+  5.  **前端頁面連接**:
+      *   修改註冊/登入頁面以呼叫後端 API。
+      *   處理前端 JWT 儲存與登入狀態管理。
 - **預計完成時間**：第 3-4 週。
 
 ### 里程碑 3：分帳與結算功能
