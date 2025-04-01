@@ -1,6 +1,10 @@
 import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+import cors from 'cors';
+
+// 導入路由
+import authRoutes from './routes/auth';
 
 // 載入環境變數
 dotenv.config();
@@ -9,8 +13,12 @@ dotenv.config();
 const app = express();
 
 // 中間件
+app.use(cors()); // 啟用CORS
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// 掛載路由
+app.use('/api/auth', authRoutes); // 將認證路由掛載到 /api/auth
 
 // 設定伺服器 PORT
 const PORT = process.env.PORT || 5000;
@@ -35,4 +43,4 @@ mongoose
   .catch((error) => {
     console.error('MongoDB 連接失敗:', error.message);
     process.exit(1);
-  }); 
+  });

@@ -109,14 +109,14 @@ graph TD
 ### 里程碑 2：核心功能開發 - 用戶管理 (進行中)
 - **目標**：實現用戶註冊與登入功能。
 - **後續步驟規劃**：
-  1.  **建立用戶資料模型 (`backend/src/models/User.ts`)**:
+  1. [x] **建立用戶資料模型 (`backend/src/models/User.ts`)**:
       *   定義 `UserSchema` (包含 `name`, `email`, `password` 等)。
-  2.  **建立認證路由 (`backend/src/routes/auth.ts`)**:
+  2. [x] **建立認證路由 (`backend/src/routes/auth.ts`)**:
       *   定義 `POST /api/auth/register` 和 `POST /api/auth/login` 路由。
-  3.  **建立認證控制器 (`backend/src/controllers/authController.ts`)**:
+  3. [x] **建立認證控制器 (`backend/src/controllers/authController.ts`)**:
       *   實現註冊邏輯 (資料驗證、密碼雜湊、存入 DB)。
       *   實現登入邏輯 (用戶查找、密碼比對、生成 JWT)。
-  4.  **整合路由與環境變數**:
+  4. [x] **整合路由與環境變數**:
       *   在 `src/index.ts` 中掛載認證路由。
       *   設定 `JWT_SECRET` 等環境變數。
   5.  **前端頁面連接**:
