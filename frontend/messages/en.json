@@ -1,0 +1,23 @@
+{
+  "LoginPage": {
+    "brandName": "TravelSplit",
+    "title": "Login",
+    "description": "Enter your email and password to access your account",
+    "form": {
+      "email": "Email",
+      "password": "Password",
+      "forgotPassword": "Forgot password?",
+      "emailPlaceholder": "your@email.com",
+      "submit": "Login",
+      "submitting": "Logging in..."
+    },
+    "footer": {
+      "noAccount": "Don't have an account?",
+      "signUp": "Sign up"
+    }
+  },
+  "ErrorMessages": {
+    "loginFailed": "Login failed: No token received",
+    "unexpectedError": "An unexpected error occurred"
+  }
+}

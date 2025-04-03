@@ -1,9 +1,11 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
+import { toast } from "sonner"
+import { apiFetch } from "@/lib/api" // Import apiFetch
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -14,11 +16,32 @@ export default function RegisterPage() {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [isLoading, setIsLoading] = useState(false) // Add loading state
+  const router = useRouter() // Initialize useRouter
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle registration logic here
-    console.log("Registration with:", name, email, password)
+    setIsLoading(true)
+
+    try {
+      // Use apiFetch for the request
+      await apiFetch("api/auth/register", {
+        method: "POST",
+        body: JSON.stringify({ name, email, password }),
+      })
+
+      // If apiFetch doesn't throw an error, registration was successful
+      toast.success("Registration successful! Please login.")
+      router.push("/login") 
+
+    } catch (error) {
+      console.error("Registration error:", error)
+      // Display the error message thrown by apiFetch or a default message
+      const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred."
+      toast.error(errorMessage)
+    } finally {
+      setIsLoading(false) // Reset loading state
+    }
   }
 
   return (
@@ -59,36 +82,39 @@ export default function RegisterPage() {
                 required
               />
             </div>
-            <Button type="submit" className="w-full">
-              Create Account
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              {isLoading ? "Creating Account..." : "Create Account"}
             </Button>
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t" />
-              </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
-              </div>
-            </div>
-            <Button variant="outline" type="button" className="w-full">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="mr-2 h-4 w-4"
-              >
-                <path d="M9 9a3 3 0 1 1 5.12 2.12L9 16.5"></path>
-                <path d="M7.2 7.2 16.5 16.5"></path>
-                <circle cx="12" cy="12" r="10"></circle>
-              </svg>
-              Google
-            </Button>
+            {/* 
+            Optional: Keep or remove the "Or continue with" section based on requirements 
+            <div className="relative mt-4"> 
+              <div className="absolute inset-0 flex items-center"> 
+                <span className="w-full border-t" /> 
+              </div> 
+              <div className="relative flex justify-center text-xs uppercase"> 
+                <span className="bg-background px-2 text-muted-foreground">Or continue with</span> 
+              </div> 
+            </div> 
+            <Button variant="outline" type="button" className="w-full" disabled={isLoading}> 
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                width="16" 
+                height="16" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                className="mr-2 h-4 w-4" 
+              > 
+                <path d="M9 9a3 3 0 1 1 5.12 2.12L9 16.5"></path> 
+                <path d="M7.2 7.2 16.5 16.5"></path> 
+                <circle cx="12" cy="12" r="10"></circle> 
+              </svg> 
+              Google 
+            </Button> 
+            */}
           </CardContent>
         </form>
         <CardFooter>
@@ -103,4 +129,3 @@ export default function RegisterPage() {
     </div>
   )
 }
-
